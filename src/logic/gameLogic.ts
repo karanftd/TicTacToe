@@ -6,13 +6,13 @@ export const WINNING_LINES = [
   [0, 4, 8], [2, 4, 6]             // diagonals
 ];
 
-export function calculateWinner(squares: Player[]): Player {
+export function calculateWinner(squares: Player[]): { winner: Player; line: number[] | null } {
   for (const [a, b, c] of WINNING_LINES) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: [a, b, c] };
     }
   }
-  return null;
+  return { winner: null, line: null };
 }
 
 export function isBoardFull(squares: Player[]): boolean {

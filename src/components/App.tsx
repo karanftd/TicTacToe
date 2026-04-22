@@ -61,14 +61,14 @@ function reducer(state: State, action: Action): State {
       const current = newHistory[newHistory.length - 1];
       const squares = [...current.squares];
 
-      if (calculateWinner(squares) || squares[action.index]) {
+      if (calculateWinner(squares).winner || squares[action.index]) {
         return state;
       }
 
       squares[action.index] = state.xIsNext ? 'X' : 'O';
       const updatedHistory = newHistory.concat([{ squares }]);
       
-      const winner = calculateWinner(squares);
+      const { winner } = calculateWinner(squares);
       let newScores = { ...state.scores };
       let winnerCounted = state.winnerCounted;
 
@@ -91,7 +91,7 @@ function reducer(state: State, action: Action): State {
         ...state,
         stepNumber: action.step,
         xIsNext: action.step % 2 === 0,
-        winnerCounted: calculateWinner(state.history[action.step].squares) !== null,
+        winnerCounted: calculateWinner(state.history[action.step].squares).winner !== null,
       };
     case 'NEW_ROUND':
       return {
@@ -120,7 +120,7 @@ const App: React.FC = () => {
   const aiTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const current = state.history[state.stepNumber];
-  const winner = calculateWinner(current.squares);
+  const { winner, line: winningLine } = calculateWinner(current.squares);
   const draw = !winner && isBoardFull(current.squares);
   const isAiThinking = state.playMode === 'ai' && !state.xIsNext && !winner && !draw;
 
@@ -247,7 +247,7 @@ const App: React.FC = () => {
     else statusText = `${state.xIsNext ? 'X' : 'O'}'s Turn`;
 
     return (
-      <div className="game-container fade-in" data-testid="game-screen">
+      <div className={`game-container fade-in ${winner ? 'winner-celebration' : ''}`} data-testid="game-screen">
         <div className="top-bar">
           <button className="icon-btn" onClick={() => dispatch({ type: 'BACK_TO_MENU' })} data-testid="back-to-menu">
             ← Menu
@@ -282,6 +282,7 @@ const App: React.FC = () => {
         <div className="main-play-area">
           <Board 
             squares={current.squares} 
+            winningLine={winningLine}
             onClick={(i) => dispatch({ type: 'MAKE_MOVE', index: i })} 
           />
         </div>
