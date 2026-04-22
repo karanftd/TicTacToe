@@ -1,0 +1,18 @@
+# Ignore large directories
+node_modules/
+dist/
+build/
+coverage/
+
+# Ignore lock files if you don't want them analyzed
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore editor and OS files
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore log files
+*.log
