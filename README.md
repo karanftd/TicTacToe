@@ -1,5 +1,7 @@
 # Tic-Tac-Toe (ttt)
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fkaranftd%2FTicTacToe)
+
 A modern, responsive Tic-Tac-Toe game built with React, TypeScript, and Vitest. It features a smart AI opponent using the Minimax algorithm with Alpha-Beta pruning.
 
 ## Features
