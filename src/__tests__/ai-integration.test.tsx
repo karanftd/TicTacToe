@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import App from '../components/App';
-import React from 'react';
 
 // Mock matchMedia for testing responsive designs
 Object.defineProperty(window, 'matchMedia', {

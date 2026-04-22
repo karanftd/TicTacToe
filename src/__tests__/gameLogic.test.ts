@@ -4,22 +4,30 @@ import { calculateWinner, isBoardFull, getBestMove, getRandomMove, Player } from
 describe('Game Logic', () => {
   describe('calculateWinner', () => {
     it('should return null for empty board', () => {
-      expect(calculateWinner(Array(9).fill(null))).toBe(null);
+      const { winner, line } = calculateWinner(Array(9).fill(null));
+      expect(winner).toBe(null);
+      expect(line).toBe(null);
     });
 
     it('should return X for a row win', () => {
       const board: Player[] = ['X', 'X', 'X', 'O', null, 'O', null, null, null];
-      expect(calculateWinner(board)).toBe('X');
+      const { winner, line } = calculateWinner(board);
+      expect(winner).toBe('X');
+      expect(line).toEqual([0, 1, 2]);
     });
 
     it('should return O for a col win', () => {
       const board: Player[] = ['X', 'O', null, 'X', 'O', null, null, 'O', null];
-      expect(calculateWinner(board)).toBe('O');
+      const { winner, line } = calculateWinner(board);
+      expect(winner).toBe('O');
+      expect(line).toEqual([1, 4, 7]);
     });
 
     it('should return X for a diagonal win', () => {
       const board: Player[] = ['X', 'O', null, null, 'X', 'O', null, null, 'X'];
-      expect(calculateWinner(board)).toBe('X');
+      const { winner, line } = calculateWinner(board);
+      expect(winner).toBe('X');
+      expect(line).toEqual([0, 4, 8]);
     });
   });
 

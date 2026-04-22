@@ -34,7 +34,7 @@ function minimax(
   alpha: number = -Infinity,
   beta: number = Infinity
 ): number {
-  const winner = calculateWinner(squares);
+  const { winner } = calculateWinner(squares);
   if (winner === 'O') return 10 - depth;
   if (winner === 'X') return depth - 10;
   if (isBoardFull(squares)) return 0;
