@@ -1,0 +1,34 @@
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.confetti-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color);
+  opacity: 0;
+  animation: blast var(--dur) ease-out var(--delay) forwards;
+}
+
+@keyframes blast {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+  20% {
+    border-radius: 50%;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--rot));
+    opacity: 0;
+  }
+}

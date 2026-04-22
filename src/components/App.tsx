@@ -1,5 +1,6 @@
 import React, { useReducer, useEffect, useRef } from 'react';
 import Board from './Board';
+import Confetti from './Confetti';
 import { calculateWinner, isBoardFull, Player, getAiMove } from '../logic/gameLogic';
 import '../styles/App.css';
 
@@ -247,7 +248,7 @@ const App: React.FC = () => {
     else statusText = `${state.xIsNext ? 'X' : 'O'}'s Turn`;
 
     return (
-      <div className={`game-container fade-in ${winner ? 'winner-celebration' : ''}`} data-testid="game-screen">
+      <div className="game-container fade-in" data-testid="game-screen">
         <div className="top-bar">
           <button className="icon-btn" onClick={() => dispatch({ type: 'BACK_TO_MENU' })} data-testid="back-to-menu">
             ← Menu
@@ -299,6 +300,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app-root">
+      {winner && <Confetti />}
       {state.gameState === 'setup' ? renderSetupScreen() : renderGameScreen()}
     </div>
   );
