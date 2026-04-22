@@ -8,6 +8,7 @@ import '../styles/App.css';
 type GameState = 'setup' | 'playing';
 type PlayMode = 'local' | 'ai';
 type Difficulty = 'easy' | 'hard';
+type Theme = 'light' | 'dark' | 'system';
 
 interface State {
   gameState: GameState;
@@ -18,6 +19,7 @@ interface State {
   xIsNext: boolean;
   scores: { X: number; O: number };
   winnerCounted: boolean;
+  theme: Theme;
 }
 
 type Action =
@@ -27,7 +29,8 @@ type Action =
   | { type: 'MAKE_MOVE'; index: number }
   | { type: 'JUMP_TO'; step: number }
   | { type: 'NEW_ROUND' }
-  | { type: 'BACK_TO_MENU' };
+  | { type: 'BACK_TO_MENU' }
+  | { type: 'TOGGLE_THEME' };
 
 // --- Initial State ---
 
@@ -40,6 +43,7 @@ const initialState: State = {
   xIsNext: true,
   scores: { X: 0, O: 0 },
   winnerCounted: false,
+  theme: 'system',
 };
 
 // --- Reducer ---
@@ -98,7 +102,12 @@ function reducer(state: State, action: Action): State {
         winnerCounted: false,
       };
     case 'BACK_TO_MENU':
-      return { ...initialState };
+      return { ...initialState, theme: state.theme };
+    case 'TOGGLE_THEME': {
+      const themes: Theme[] = ['light', 'dark', 'system'];
+      const nextIndex = (themes.indexOf(state.theme) + 1) % themes.length;
+      return { ...state, theme: themes[nextIndex] };
+    }
     default:
       return state;
   }
@@ -115,10 +124,22 @@ const App: React.FC = () => {
   const draw = !winner && isBoardFull(current.squares);
   const isAiThinking = state.playMode === 'ai' && !state.xIsNext && !winner && !draw;
 
+  // Theme Side Effect
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+
+    if (state.theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.classList.add(systemTheme);
+    } else {
+      root.classList.add(state.theme);
+    }
+  }, [state.theme]);
+
   // AI Side Effect
   useEffect(() => {
     if (isAiThinking) {
-      // Clear any existing timer just in case
       if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
 
       aiTimerRef.current = setTimeout(() => {
@@ -138,8 +159,25 @@ const App: React.FC = () => {
     };
   }, [isAiThinking, state.aiDifficulty, current.squares]);
 
+  const renderThemeToggle = () => {
+    const icons = { light: '☀️', dark: '🌙', system: '🌓' };
+    return (
+      <button 
+        className="theme-toggle" 
+        onClick={() => dispatch({ type: 'TOGGLE_THEME' })}
+        aria-label="Toggle Theme"
+        data-testid="theme-toggle"
+      >
+        {icons[state.theme]}
+      </button>
+    );
+  };
+
   const renderSetupScreen = () => (
     <div className="setup-container fade-in" data-testid="setup-screen">
+      <div className="setup-header">
+        {renderThemeToggle()}
+      </div>
       <h1 className="title">Tic-Tac-Toe</h1>
       <p className="subtitle">Choose your play style</p>
       
@@ -214,20 +252,25 @@ const App: React.FC = () => {
           <button className="icon-btn" onClick={() => dispatch({ type: 'BACK_TO_MENU' })} data-testid="back-to-menu">
             ← Menu
           </button>
-          <div className="game-scores">
-            <div className="score-item x">
-              <span className="label">X</span>
-              <span className="value" data-testid="score-x">{state.scores.X}</span>
-            </div>
-            <div className="score-divider"></div>
-            <div className="score-item o">
-              <span className="label">O</span>
-              <span className="value" data-testid="score-o">{state.scores.O}</span>
+          <div className="game-header-center">
+            <div className="game-scores">
+              <div className="score-item x">
+                <span className="label">X</span>
+                <span className="value" data-testid="score-x">{state.scores.X}</span>
+              </div>
+              <div className="score-divider"></div>
+              <div className="score-item o">
+                <span className="label">O</span>
+                <span className="value" data-testid="score-o">{state.scores.O}</span>
+              </div>
             </div>
           </div>
-          <button className="icon-btn" onClick={() => dispatch({ type: 'NEW_ROUND' })} data-testid="new-round">
-            Reset ↻
-          </button>
+          <div className="top-bar-right">
+            {renderThemeToggle()}
+            <button className="icon-btn" onClick={() => dispatch({ type: 'NEW_ROUND' })} data-testid="new-round">
+              Reset ↻
+            </button>
+          </div>
         </div>
 
         <div className="game-status-box">
