@@ -13,6 +13,29 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --radius: 16px;
   --square-size: 100px;
+  --subtle-bg: #f1f5f9;
+  --badge-bg: #eef2ff;
+  --square-bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --primary: #818cf8;
+    --primary-hover: #6366f1;
+    --secondary: #fb7185;
+    --secondary-hover: #f43f5e;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+    --subtle-bg: #0f172a;
+    --badge-bg: #312e81;
+    --square-bg: #1e293b;
+  }
 }
 
 body {
@@ -25,6 +48,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-root {
@@ -49,6 +73,7 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   text-align: center;
+  transition: background 0.3s ease;
 }
 
 .title {
@@ -77,7 +102,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  background: #f1f5f9;
+  background: var(--subtle-bg);
   padding: 6px;
   border-radius: 12px;
 }
@@ -94,7 +119,7 @@ body {
 }
 
 .mode-btn.active {
-  background: white;
+  background: var(--card-bg);
   color: var(--primary);
   box-shadow: var(--shadow-sm);
 }
@@ -116,7 +141,8 @@ body {
   flex: 1;
   padding: 10px;
   border: 2px solid var(--border-color);
-  background: white;
+  background: var(--card-bg);
+  color: var(--text-main);
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
@@ -126,14 +152,14 @@ body {
 .diff-opt.active {
   border-color: var(--primary);
   color: var(--primary);
-  background: #eef2ff;
+  background: var(--badge-bg);
 }
 
 .start-btn {
   width: 100%;
   padding: 16px;
   background: var(--primary);
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 12px;
   font-size: 1.125rem;
@@ -155,6 +181,7 @@ body {
   padding: 24px;
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
+  transition: background 0.3s ease;
 }
 
 .top-bar {
@@ -165,7 +192,7 @@ body {
 }
 
 .icon-btn {
-  background: #f1f5f9;
+  background: var(--subtle-bg);
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
@@ -177,7 +204,7 @@ body {
 }
 
 .icon-btn:hover {
-  background: #e2e8f0;
+  background: var(--border-color);
   color: var(--text-main);
 }
 
@@ -185,7 +212,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #f8fafc;
+  background: var(--bg-color);
   padding: 4px 16px;
   border-radius: 20px;
   border: 1px solid var(--border-color);
@@ -223,7 +250,7 @@ body {
 }
 
 .status-badge {
-  background: #eef2ff;
+  background: var(--badge-bg);
   color: var(--primary);
   padding: 8px 24px;
   border-radius: 100px;
@@ -235,7 +262,14 @@ body {
 
 .status-badge.game-over {
   background: #fecaca;
-  color: var(--secondary);
+  color: #b91c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-badge.game-over {
+    background: #7f1d1d;
+    color: #fecaca;
+  }
 }
 
 .main-play-area {
@@ -254,7 +288,7 @@ body {
 .square {
   width: var(--square-size);
   height: var(--square-size);
-  background: white;
+  background: var(--square-bg);
   border: 2px solid var(--border-color);
   border-radius: 12px;
   font-size: 2.5rem;
@@ -265,11 +299,12 @@ body {
   align-items: center;
   transition: all 0.2s;
   box-shadow: var(--shadow-sm);
+  color: var(--text-main);
 }
 
 .square:hover:empty {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: var(--subtle-bg);
+  border-color: var(--text-muted);
 }
 
 .square.x { color: var(--primary); }
@@ -301,8 +336,9 @@ body {
 .history-btn {
   flex-shrink: 0;
   padding: 6px 12px;
-  background: white;
+  background: var(--square-bg);
   border: 1px solid var(--border-color);
+  color: var(--text-main);
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -311,12 +347,12 @@ body {
 }
 
 .history-btn:hover {
-  background: #f1f5f9;
+  background: var(--subtle-bg);
 }
 
 .history-btn.current {
   background: var(--primary);
-  color: white;
+  color: #ffffff;
   border-color: var(--primary);
 }
 
