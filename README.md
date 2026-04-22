@@ -16,7 +16,7 @@ A modern, responsive Tic-Tac-Toe game built with React, TypeScript, and Vitest. 
 
 | Setup Screen | Game Screen |
 |--------------|-------------|
-| ![Setup](https://via.placeholder.com/400x300?text=Setup+Screen) | ![Game](https://via.placeholder.com/400x300?text=Game+Screen) |
+| ![Setup](https://placehold.co/400x300?text=Setup+Screen) | ![Game](https://placehold.co/400x300?text=Game+Screen) |
 
 ## Tech Stack
 
